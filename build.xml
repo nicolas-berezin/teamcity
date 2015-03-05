@@ -1,0 +1,36 @@
+<project name="CI Builder" default="help" basedir=".">
+
+    <property file="build.properties"/>
+    <property name="temp_dir" value="${project.basedir}/${activizm.phing.temp_dir}"/>
+    <condition property="remove_temp_dir">
+        <istrue value="${activizm.phing.remove_temp_dir}"/>
+    </condition>
+
+    <target name="help">
+        <echo message="Common tasks encountered in project, like: restore db, upload yml for partner, git commit e.t.c"/>
+        <echo message="Best suited for work with phing-plugin in phpstorm"/>
+    </target>
+
+    <target name="create_temp_dir"
+            description="временная директория phing'a (для хранения sql-дампов и т.д.). по-хорошему должна удаляться после каждого таргета">
+        <mkdir dir="${temp_dir}"/>
+    </target>
+
+    <target name="remove_temp_dir" if="remove_temp_dir" description="удаляет временную директорию">
+        <if>
+            <available property="temp_dir.exists" file="${temp_dir}" type="dir"/>
+            <then>
+                <delete dir="${temp_dir}"/>
+            </then>
+        </if>
+
+    </target>
+
+    <target name="prepare_directory" depends="create_temp_dir" description="загрузка тестового xml-ника для партнера">
+        <property name="upload_test_xml.file" value="${temp_dir}/22__shop_yml_activizm.xml"/>
+        <touch file="${upload_test_xml.file}"/>
+        <echo file="${upload_test_xml.file}" message="${emp.yml.test_xml}"/>
+        <echo message="${output}"/>
+        <phingcall target="remove_temp_dir"/>
+    </target>
+</project>
