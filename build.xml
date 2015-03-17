@@ -1,11 +1,19 @@
 <project name="CI Builder" default="help" basedir=".">
 
     <property file="build.properties"/>
-    <property name="branch" value=""/>
+    <property name="branch" value="default-value"/>
     <property name="temp_dir" value="${project.basedir}/${activizm.phing.temp_dir}"/>
     <condition property="remove_temp_dir">
         <istrue value="${activizm.phing.remove_temp_dir}"/>
     </condition>
+
+    <property name="branch_name" value="${branch}">
+      <filterchain>
+        <replaceregexp>
+          <regexp pattern=".*/" replace="" ignoreCase="true"/>
+        </replaceregexp>
+      </filterchain>
+    </property>
 
     <target name="help">
         <echo message="Common tasks encountered in project, like: restore db, upload yml for partner, git commit e.t.c"/>
@@ -28,15 +36,14 @@
     </target>
 
     <target name="prepare_directory" depends="create_temp_dir" description="загрузка тестового xml-ника для партнера">
-        <propertyregex property="branch-name"
-            subject="${branch}"
-            pattern=".*\([a-z0-9_-]+)"
+        <!-- <propertyregex property="branch_name"
+            subject="ref/home/master"
+            pattern=".*\(.*)"
             match="$1"
             casesensitive="false"
-            defaultvalue="test1"
-            />
+            /> -->
 	    <touch file="hello.txt"/>
-        <echo file="hello.txt" message="${branch}   ${branch-name}"/>
+        <echo file="hello.txt" message="${branch}   ${branch_name}"/>
         <echo message="${output}"/>
     </target>
 </project>
