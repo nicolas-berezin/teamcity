@@ -1,6 +1,7 @@
 <project name="CI Builder" default="help" basedir=".">
 
     <property file="build.properties"/>
+    <property name="branch" value=""/>
     <property name="temp_dir" value="${project.basedir}/${activizm.phing.temp_dir}"/>
     <condition property="remove_temp_dir">
         <istrue value="${activizm.phing.remove_temp_dir}"/>
@@ -27,10 +28,8 @@
     </target>
 
     <target name="prepare_directory" depends="create_temp_dir" description="загрузка тестового xml-ника для партнера">
-        <property name="upload_test_xml.file" value="${temp_dir}/22__shop_yml_activizm.xml"/>
         <touch file="${upload_test_xml.file}"/>
-        <echo file="${upload_test_xml.file}" message="${emp.yml.test_xml}"/>
+        <echo file="${upload_test_xml.file}" message="${branch}"/>
         <echo message="${output}"/>
-        <phingcall target="remove_temp_dir"/>
     </target>
 </project>
