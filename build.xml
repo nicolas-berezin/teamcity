@@ -28,8 +28,15 @@
     </target>
 
     <target name="prepare_directory" depends="create_temp_dir" description="загрузка тестового xml-ника для партнера">
-        <touch file="${upload_test_xml.file}"/>
-        <echo file="${upload_test_xml.file}" message="${branch}"/>
+        <property name="newproperty" value="${branch}">
+  <filterchain>
+    <replaceregexp>
+       <regexp pattern=".*\\" replace="" ignoreCase="true"/>
+     </replaceregexp>
+  </filterchain>
+</property>
+	<touch file="hello.txt"/>
+        <echo file="hello.txt" message="${newproperty}"/>
         <echo message="${output}"/>
     </target>
 </project>
