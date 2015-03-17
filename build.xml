@@ -1,7 +1,13 @@
 <project name="CI Builder" default="help" basedir=".">
 
     <property file="build.properties"/>
-    <property name="branch" value=""/>
+    <property name="branch" value="${branch}">
+      <filterchain>
+        <replaceregexp>
+           <regexp pattern=".*/" replace="" ignoreCase="true"/>
+         </replaceregexp>
+      </filterchain>
+    </property>
     <property name="temp_dir" value="${project.basedir}/${activizm.phing.temp_dir}"/>
     <condition property="remove_temp_dir">
         <istrue value="${activizm.phing.remove_temp_dir}"/>
@@ -28,15 +34,9 @@
     </target>
 
     <target name="prepare_directory" depends="create_temp_dir" description="загрузка тестового xml-ника для партнера">
-        <property name="newproperty" value="${branch}">
-  <filterchain>
-    <replaceregexp>
-       <regexp pattern=".*\\" replace="" ignoreCase="true"/>
-     </replaceregexp>
-  </filterchain>
-</property>
-	<touch file="hello.txt"/>
-        <echo file="hello.txt" message="${newproperty}"/>
+        
+	    <touch file="hello.txt"/>
+        <echo file="hello.txt" message="${branch}"/>
         <echo message="${output}"/>
     </target>
 </project>
